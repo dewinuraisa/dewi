@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard dengan Notifikasi</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+</head>
+<body class="bg-gray-100 font-sans">
+
+  <!-- Sidebar -->
+  <div class="flex">
+    <aside class="w-64 bg-white h-screen shadow-md">
+      <div class="p-4">
+        <h1 class="text-xl font-bold">Logo</h1>
+      </div>
+      <nav class="mt-6 space-y-2">
+        <a href="#" class="flex items-center py-2 px-4 text-gray-600 hover:bg-gray-200">
+          <i class="fas fa-home mr-3"></i> Dashboard
+        </a>
+        <a href="#" class="flex items-center py-2 px-4 text-gray-600 hover:bg-gray-200">
+          <i class="fas fa-chart-line mr-3"></i> Revenue
+        </a>
+        <a href="#" class="flex items-center py-2 px-4 text-gray-600 hover:bg-gray-200 relative">
+          <i class="fas fa-bell mr-3"></i> Notifications
+          <!-- Lencana Notifikasi -->
+          <span class="absolute right-4 top-2 bg-red-500 text-white text-xs rounded-full px-2 py-0.5">3</span>
+        </a>
+        <a href="#" class="flex items-center py-2 px-4 text-gray-600 hover:bg-gray-200">
+          <i class="fas fa-chart-pie mr-3"></i> Analytics
+        </a>
+        <a href="#" class="flex items-center py-2 px-4 text-gray-600 hover:bg-gray-200">
+          <i class="fas fa-heart mr-3"></i> Likes
+        </a>
+        <a href="#" class="flex items-center py-2 px-4 text-gray-600 hover:bg-gray-200">
+          <i class="fas fa-folder-open mr-3"></i> Files
+        </a>
+        <a href="#" class="flex items-center py-2 px-4 text-gray-600 hover:bg-gray-200">
+          <i class="fas fa-sign-out-alt mr-3"></i> Logout
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Konten Utama -->
+    <div class="flex-1 p-8">
+      <!-- Kartu Statistik -->
+      <div class="grid grid-cols-4 gap-6">
+        <div class="bg-blue-500 text-white p-4 rounded-lg shadow">
+          <h2 class="text-lg font-bold">Total Pendapatan</h2>
+          <p>Rp 579.000.000</p>
+          <p class="text-sm">Hemat 25%</p>
+        </div>
+        <div class="bg-teal-400 text-white p-4 rounded-lg shadow">
+          <h2 class="text-lg font-bold">Total Pengeluaran</h2>
+          <p>Rp 79.000.000</p>
+          <p class="text-sm">Hemat 25%</p>
+        </div>
+        <div class="bg-purple-500 text-white p-4 rounded-lg shadow">
+          <h2 class="text-lg font-bold">Kas Tersedia</h2>
+          <p>Rp 92.000.000</p>
+          <p class="text-sm">Hemat 25%</p>
+        </div>
+        <div class="bg-green-400 text-white p-4 rounded-lg shadow">
+          <h2 class="text-lg font-bold">Margin Laba Bersih</h2>
+          <p>Rp 179.000.000</p>
+          <p class="text-sm">Hemat 65%</p>
+        </div>
+      </div>
+
+      <!-- Bagian Grafik -->
+      <div class="grid grid-cols-2 gap-6 mt-8">
+        <div class="bg-cyan-200 p-4 rounded-lg shadow">
+          <h3 class="text-lg font-bold">Saldo AP dan AR</h3>
+          <canvas id="barChart" class="mt-4"></canvas>
+        </div>
+
+        <div>
+          <div class="bg-white p-4 rounded-lg shadow mb-6">
+            <h3 class="text-lg font-bold">% Anggaran Pendapatan</h3>
+            <canvas id="incomePieChart" class="mt-4"></canvas>
+          </div>
+          <div class="bg-white p-4 rounded-lg shadow">
+            <h3 class="text-lg font-bold">% Anggaran Pengeluaran</h3>
+            <canvas id="expensesPieChart" class="mt-4"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Data Grafik Batang
+    const barChartCtx = document.getElementById('barChart').getContext('2d');
+    new Chart(barChartCtx, {
+      type: 'bar',
+      data: {
+        labels: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni'],
+        datasets: [{
+          label: 'Pendapatan',
+          data: [10000, 15000, 5000, 20000, 10000, 30000],
+          backgroundColor: 'rgba(54, 162, 235, 0.7)',
+          borderWidth: 1,
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+
+    // Data Grafik Pie Pendapatan
+    const incomePieCtx = document.getElementById('incomePieChart').getContext('2d');
+    new Chart(incomePieCtx, {
+      type: 'pie',
+      data: {
+        labels: ['Sewa', 'Utilitas', 'Gaji', 'Pemasaran', 'Perlengkapan'],
+        datasets: [{
+          data: [3000, 2000, 5000, 2500, 4000],
+          backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
+        }]
+      }
+    });
+
+    // Data Grafik Pie Pengeluaran
+    const expensesPieCtx = document.getElementById('expensesPieChart').getContext('2d');
+    new Chart(expensesPieCtx, {
+      type: 'pie',
+      data: {
+        labels: ['Produk A', 'Produk B', 'Produk C', 'Produk D', 'Produk E'],
+        datasets: [{
+          data: [1000, 3000, 2000, 4000, 2500],
+          backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
+        }]
+      }
+    });
+  </script>
+</body>
+</html>
